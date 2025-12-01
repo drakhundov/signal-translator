@@ -1,7 +1,7 @@
 from typing import List, Type
 
 
-def user_select_from_list(msg: str, select: List[str], req_type: Type):
+def user_select_from_list(msg: str, select: List[str], req_type: Type, end: str = ''):
     print(msg)
     noptions = len(select)
     for i, item in enumerate(select):
@@ -16,4 +16,5 @@ def user_select_from_list(msg: str, select: List[str], req_type: Type):
             print("Please enter a valid option")
         else:
             break
+    print(end, end='')
     return req_type(raw)
