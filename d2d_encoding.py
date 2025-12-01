@@ -1,7 +1,8 @@
 from custom_types import Bits, DigitalSignal
 
 
-class NRZ:
+class NRZ:  # Non-return-to-zero
+    @staticmethod
     def encode(bits: Bits) -> DigitalSignal:
         """
         - 1 -> +1.0
@@ -9,6 +10,7 @@ class NRZ:
         """
         return [1.0 if b == 1 else -1.0 for b in bits]
 
+    @staticmethod
     def decode(signal: DigitalSignal) -> Bits:
         """
         - > 0 -> 1
@@ -17,7 +19,8 @@ class NRZ:
         return [1 if s > 0.0 else 0 for s in signal]
 
 
-class Manchester:
+class ManchesterCode:
+    @staticmethod
     def encode(bits: Bits) -> DigitalSignal:
         """
         - 0 -> low-to-high: [-1.0, +1.0]
@@ -31,6 +34,7 @@ class Manchester:
                 signal.extend([+1.0, -1.0])
         return signal
 
+    @staticmethod
     def decode(signal: DigitalSignal) -> Bits:
         """
         Take them pair by pair:
@@ -53,7 +57,8 @@ class Manchester:
         return bits
 
 
-class AMI:
+class AMI:  # Alternate Mark Inversion
+    @staticmethod
     def encode(bits: Bits) -> DigitalSignal:
         """
         - 0 -> 0.0 (no pulse)
@@ -70,6 +75,7 @@ class AMI:
                 signal.append(last_pulse)
         return signal
 
+    @staticmethod
     def decode(signal: DigitalSignal) -> Bits:
         """
         - 0.0 (or very close to 0) -> 0
