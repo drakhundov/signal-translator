@@ -3,7 +3,7 @@ from custom_types import Bits, DigitalSignal
 
 class NRZ:  # Non-return-to-zero
     @staticmethod
-    def encode(bits: Bits) -> DigitalSignal:
+    def forward(bits: Bits) -> DigitalSignal:
         """
         - 1 -> +1.0
         - 0 -> -1.0
@@ -11,7 +11,7 @@ class NRZ:  # Non-return-to-zero
         return [1.0 if b == 1 else -1.0 for b in bits]
 
     @staticmethod
-    def decode(signal: DigitalSignal) -> Bits:
+    def reverse(signal: DigitalSignal) -> Bits:
         """
         - > 0 -> 1
         - <= 0 -> 0
@@ -21,7 +21,7 @@ class NRZ:  # Non-return-to-zero
 
 class ManchesterCode:
     @staticmethod
-    def encode(bits: Bits) -> DigitalSignal:
+    def forward(bits: Bits) -> DigitalSignal:
         """
         - 0 -> low-to-high: [-1.0, +1.0]
         - 1 -> high-to-low: [+1.0, -1.0]
@@ -35,7 +35,7 @@ class ManchesterCode:
         return signal
 
     @staticmethod
-    def decode(signal: DigitalSignal) -> Bits:
+    def reverse(signal: DigitalSignal) -> Bits:
         """
         Take them pair by pair:
         - first > second  -> interpret as 0 (high-to-low)
@@ -59,7 +59,7 @@ class ManchesterCode:
 
 class AMI:  # Alternate Mark Inversion
     @staticmethod
-    def encode(bits: Bits) -> DigitalSignal:
+    def forward(bits: Bits) -> DigitalSignal:
         """
         - 0 -> 0.0 (no pulse)
         - 1 -> pulses that alternate: +1.0, -1.0, +1.0, -1.0, ...
@@ -76,7 +76,7 @@ class AMI:  # Alternate Mark Inversion
         return signal
 
     @staticmethod
-    def decode(signal: DigitalSignal) -> Bits:
+    def reverse(signal: DigitalSignal) -> Bits:
         """
         - 0.0 (or very close to 0) -> 0
         - non-zero (positive or negative pulse) -> 1

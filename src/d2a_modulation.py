@@ -6,11 +6,11 @@ from custom_types import Bits, AnalogSignal, Sample
 
 class ASK:  # Amplitude Shift Keying
     @staticmethod
-    def modulate(bits: Bits,
-                 carrier_freq: float = 1.0,
-                 samples_per_bit: int = 50,
-                 amp_low: float = 0.0,
-                 amp_high: float = 1.0) -> AnalogSignal:
+    def forward(bits: Bits,
+                carrier_freq: float = 1.0,
+                samples_per_bit: int = 50,
+                amp_low: float = 0.0,
+                amp_high: float = 1.0) -> AnalogSignal:
         """
         - 0 -> low amplitude
         - 1 -> high amplitude
@@ -25,10 +25,10 @@ class ASK:  # Amplitude Shift Keying
         return signal
 
     @staticmethod
-    def demodulate(signal: AnalogSignal,
-                   carrier_freq: float = 1.0,
-                   samples_per_bit: int = 50,
-                   threshold: float = 0.5) -> Bits:
+    def reverse(signal: AnalogSignal,
+                carrier_freq: float = 1.0,
+                samples_per_bit: int = 50,
+                threshold: float = 0.5) -> Bits:
         """
         For each bit interval, compute average absolute amplitude.
         - above threshold → 1
@@ -47,10 +47,10 @@ class ASK:  # Amplitude Shift Keying
 
 class FSK:  # Frequency Shift Keying
     @staticmethod
-    def modulate(bits: Bits,
-                 f0: float = 1.0,
-                 f1: float = 2.0,
-                 samples_per_bit: int = 50) -> AnalogSignal:
+    def forward(bits: Bits,
+                f0: float = 1.0,
+                f1: float = 2.0,
+                samples_per_bit: int = 50) -> AnalogSignal:
         """
         - 0 -> carrier at f0
         - 1 -> carrier at f1
@@ -65,10 +65,10 @@ class FSK:  # Frequency Shift Keying
         return signal
 
     @staticmethod
-    def demodulate(signal: AnalogSignal,
-                   f0: float = 1.0,
-                   f1: float = 2.0,
-                   samples_per_bit: int = 50) -> Bits:
+    def reverse(signal: AnalogSignal,
+                f0: float = 1.0,
+                f1: float = 2.0,
+                samples_per_bit: int = 50) -> Bits:
         bits: Bits = []
         signal_length = len(signal)
         if signal_length % samples_per_bit != 0:
@@ -83,11 +83,11 @@ class FSK:  # Frequency Shift Keying
         return bits
 
 
-class PSK:
+class PSK:  # Phase Shift Keying
     @staticmethod
-    def modulate(bits: Bits,
-                 carrier_freq: float = 1.0,
-                 samples_per_bit: int = 50) -> AnalogSignal:
+    def forward(bits: Bits,
+                carrier_freq: float = 1.0,
+                samples_per_bit: int = 50) -> AnalogSignal:
         """
         - 0 => phase 0
         - 1 => phase π
@@ -102,9 +102,9 @@ class PSK:
         return signal
 
     @staticmethod
-    def demodulate(signal: AnalogSignal,
-                   carrier_freq: float = 1.0,
-                   samples_per_bit: int = 50) -> Bits:
+    def reverse(signal: AnalogSignal,
+                carrier_freq: float = 1.0,
+                samples_per_bit: int = 50) -> Bits:
         bits: Bits = []
         total = len(signal)
         if total % samples_per_bit != 0:
