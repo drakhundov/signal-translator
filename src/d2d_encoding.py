@@ -51,9 +51,9 @@ class ManchesterCode:
             first = signal[i]
             second = signal[i + 1]
             if first > second:
-                bits.append(0)
-            else:
                 bits.append(1)
+            else:
+                bits.append(0)
         return bits
 
 
